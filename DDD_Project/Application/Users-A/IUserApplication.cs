@@ -7,10 +7,10 @@ namespace Application.Users
 {
     public interface IUserApplication
     {
-        Task <string> Create(CreateUpdateDto dto);
+        Task <string> Create(UserCreateDto dto);
         Task<List<GetUserDto>> GetAll();
         Task<GetUserDto> GetById(int id);
-        Task Update(int id, CreateUpdateDto dto);
+        Task Update(int id, UserUpdateDto dto);
         Task Delete(int id);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Application.UserDtos;
 using Application.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ namespace WebAp_.Controllers.User
 
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateUpdateDto dto)
+        public async Task<IActionResult> Create([FromBody] UserCreateDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -42,9 +43,9 @@ namespace WebAp_.Controllers.User
                 return NotFound("User not found");
             return Ok(user);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, CreateUpdateDto dto)
+        public async Task<IActionResult> Update(int id, UserUpdateDto dto)
         {
             try
             {
@@ -56,7 +57,7 @@ namespace WebAp_.Controllers.User
                 return NotFound(ex.Message);
             }
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

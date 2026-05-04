@@ -1,4 +1,5 @@
 using Application.Auth_A;
+using Application.Mappings;
 using Application.Services.MailServices;
 using Application.Services.TokenServices;
 using Application.Users;
@@ -34,6 +35,7 @@ builder.Services.AddSwaggerGen(options =>
     { [new OpenApiSecuritySchemeReference("Bearer", document, externalResource: null)] = [] });
 });
 
+builder.Services.AddAutoMapper(cfg => { }, typeof(Mapping));
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();

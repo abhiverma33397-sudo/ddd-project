@@ -1,10 +1,10 @@
 ﻿using Application.Services.MailServices;
 using Application.UserDtos;
+using AutoMapper;
 using Data.Repositries.AuthRepostries;
 using Data.Repositries.UserRepo;
 using Domain.Auths;
 using Domain.Users;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.Users
 {
@@ -13,15 +13,17 @@ namespace Application.Users
         private readonly IUserRepo _userRepo;
         private readonly IMailService _mailService;
         private readonly IAuthRepo _authRepo;
+        private readonly IMapper _mapper;
 
-        public UserApplication(IUserRepo userRepo, IMailService mailService, IAuthRepo authRepo)
+        public UserApplication(IUserRepo userRepo, IMailService mailService, IAuthRepo authRepo, IMapper mapper)
         {
             _userRepo = userRepo;
             _mailService = mailService;
             _authRepo = authRepo;
+            _mapper = mapper;
         }
 
-        public async Task<string> Create(CreateUpdateDto dto)
+        public async Task<string> Create(UserCreateDto dto)
         {
             var email = dto.UserName.Trim().ToLower();
 
@@ -30,17 +32,11 @@ namespace Application.Users
             if (existingUser != null)
                 return "User already exists with this email.";
 
-            var user = new User
-            {
-                FirstName = dto.FirstName.Trim(),
-                LastName = dto.LastName.Trim(),
-                UserName = email,
-                Password = dto.Password,
-                Role = dto.Role.Trim(),
-                IsVerified = false
-            };
 
+            User user = _mapper.Map<User>(dto);
             await _userRepo.Create(user);
+
+
             var otp = new Random().Next(100000, 999999);
 
             var otpEntity = new OtpVerify
@@ -76,17 +72,13 @@ namespace Application.Users
 
             return "Registration successful. Please verify your email using the OTP sent to your email.";
         }
+
+
         public async Task<List<GetUserDto>> GetAll()
         {
             var users = await _userRepo.GetAll();
-            var result = users.Select(user => new GetUserDto
-            {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                UserName = user.UserName,
-                Role = user.Role
-            }).ToList();
+            var result = _mapper.Map<List<GetUserDto>>(users);
+            
             return result;
         }
 
@@ -95,28 +87,19 @@ namespace Application.Users
             var user = await _userRepo.GetById(id);
             if (user == null)
                 return null;
-            var result = new GetUserDto
-            {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                UserName = user.UserName,
-                Role = user.Role
-            };
+            var result = _mapper.Map<GetUserDto>(user);
+
             return result;
         }
 
-        public async Task Update(int id, CreateUpdateDto dto)
+        public async Task Update(int id, UserUpdateDto dto)
         {
             var user = await _userRepo.GetById(id);
             if (user == null)
             {
                 throw new Exception("User not found");
             }
-            user.FirstName = dto.FirstName;
-            user.LastName = dto.LastName;
-            user.UserName = dto.UserName;
-            user.Role = dto.Role;
+            _mapper.Map(dto, user);
             await _userRepo.Update(user);
         }
         public async Task Delete(int id)

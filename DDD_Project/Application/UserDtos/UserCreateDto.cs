@@ -2,7 +2,7 @@
 
 namespace Application.UserDtos
 {
-    public class CreateUpdateDto
+    public class UserCreateDto
     {
         [Required(ErrorMessage = "First Name is required.")]
         [StringLength(50, ErrorMessage = "First Name cannot exceed 50 characters.")]
