@@ -1,10 +1,10 @@
 ﻿using Application.Auth_A;
-using Application.AuthDtos;
+using Application.Auths.AuthDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace WebAp_.Controllers.Auth
+namespace WebAp_.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

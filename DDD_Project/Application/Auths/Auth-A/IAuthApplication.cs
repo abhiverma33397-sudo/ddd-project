@@ -1,4 +1,4 @@
-﻿using Application.AuthDtos;
+﻿using Application.Auths.AuthDtos;
 using Domain.Auths;
 
 namespace Application.Auth_A

@@ -3,8 +3,10 @@ using Application.Mappings;
 using Application.Services.MailServices;
 using Application.Services.TokenServices;
 using Application.Users;
+using Application.Users.TransactionDtos.Transaction_A;
 using Data.DataContexts;
 using Data.Repositries.AuthRepostries;
+using Data.Repositries.TransactionRepostries;
 using Data.Repositries.UserRepo;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -86,6 +88,8 @@ builder.Services.AddScoped<IAuthRepo, AuthRepo>();
 builder.Services.AddScoped<IAuthApplication, AuthApplication>();
 builder.Services.AddScoped<ITokenGenerate, TokenGenerate>();
 builder.Services.AddScoped<IMailService, MailService>();
+builder.Services.AddScoped<ITransactionRepo, TransactionRepo>();
+builder.Services.AddScoped<ITransactionApplication, TransactionApplication>();
 
 
 

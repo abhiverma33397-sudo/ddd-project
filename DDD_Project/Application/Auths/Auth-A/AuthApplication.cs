@@ -1,4 +1,4 @@
-﻿using Application.AuthDtos;
+﻿using Application.Auths.AuthDtos;
 using Application.Services.MailServices;
 using Application.Services.TokenServices;
 using Data.DataContexts;

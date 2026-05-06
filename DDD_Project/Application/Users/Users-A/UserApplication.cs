@@ -1,5 +1,5 @@
 ﻿using Application.Services.MailServices;
-using Application.UserDtos;
+using Application.Users.UserDtos;
 using AutoMapper;
 using Data.Repositries.AuthRepostries;
 using Data.Repositries.UserRepo;
@@ -78,9 +78,10 @@ namespace Application.Users
         {
             var users = await _userRepo.GetAll();
             var result = _mapper.Map<List<GetUserDto>>(users);
-            
+
             return result;
         }
+
 
         public async Task<GetUserDto> GetById(int id)
         {

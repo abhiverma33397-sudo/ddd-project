@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Application.AuthDtos
+namespace Application.Auths.AuthDtos
 {
     public class CreateOtpVerifyDto
     {

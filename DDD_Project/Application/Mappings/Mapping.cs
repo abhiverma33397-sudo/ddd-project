@@ -1,20 +1,23 @@
-﻿using Application.UserDtos;
+﻿
+using Application.Users.Transactions.TransactionDtos;
+using Application.Users.UserDtos;
 using AutoMapper;
+using Domain.Transactions;
 using Domain.Users;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Application.Mappings
 {
-    public class Mapping:Profile
+    public class Mapping : Profile
     {
-        public Mapping() {
+        public Mapping()
+        {
             CreateMap<UserCreateDto, User>();
             CreateMap<UserUpdateDto, User>();
-            CreateMap<User,GetUserDto>();
+            CreateMap<User, GetUserDto>();
 
-            
+            CreateMap<CreateUpdateTransactionDto, UserTransaction>();
+            CreateMap<UserTransaction, GetTransactionDto>();
+
         }
     }
 }

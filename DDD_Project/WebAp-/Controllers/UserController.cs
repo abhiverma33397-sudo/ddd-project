@@ -1,10 +1,10 @@
-﻿using Application.UserDtos;
-using Application.Users;
+﻿using Application.Users;
+using Application.Users.UserDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebAp_.Controllers.User
+namespace WebAp_.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

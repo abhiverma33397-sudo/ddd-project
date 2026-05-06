@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Application.UserDtos
+namespace Application.Users.UserDtos
 {
     public class GetUserDto
     {
