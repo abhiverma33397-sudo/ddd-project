@@ -1,8 +1,10 @@
 ﻿
+using Application.Users.Transactions.CategoriesDtos;
 using Application.Users.Transactions.TransactionDtos;
 using Application.Users.UserDtos;
 using AutoMapper;
 using Domain.Transactions;
+using Domain.UserCategories;
 using Domain.Users;
 
 namespace Application.Mappings
@@ -17,6 +19,12 @@ namespace Application.Mappings
 
             CreateMap<CreateUpdateTransactionDto, UserTransaction>();
             CreateMap<UserTransaction, GetTransactionDto>();
+
+
+            CreateMap<CreateUpdateCategoryDto, TransactionCategory>();
+            CreateMap<TransactionCategory, GetCategoryDto>();
+
+
 
         }
     }

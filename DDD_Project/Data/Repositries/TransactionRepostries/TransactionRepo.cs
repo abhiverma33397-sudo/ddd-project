@@ -23,7 +23,9 @@ namespace Data.Repositries.TransactionRepostries
 
         public async Task<List<UserTransaction>> GetAll()
         {
-            return await _context.Transactions.ToListAsync();
+            return await _context.Transactions
+                .Include(x => x.Category)
+                .ToListAsync(); 
         }
 
         public async Task<UserTransaction> GetById(int id)

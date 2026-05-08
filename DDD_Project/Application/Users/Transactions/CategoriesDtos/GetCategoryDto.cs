@@ -1,11 +1,9 @@
 ﻿using Domain.Transactions.Enums;
-using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Transactions
+namespace Application.Users.Transactions.CategoriesDtos
 {
-    public class UserTransactionCategory
+    public class GetCategoryDto
     {
-        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public TransactionEnum Type { get; set; }

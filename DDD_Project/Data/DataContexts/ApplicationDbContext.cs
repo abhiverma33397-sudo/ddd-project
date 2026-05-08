@@ -1,5 +1,6 @@
 ﻿using Domain.Auths;
 using Domain.Transactions;
+using Domain.UserCategories;
 using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,7 @@ namespace Data.DataContexts
 
         public DbSet<OtpVerify> OtpVerifies { get; set; }
         public DbSet<UserTransaction> Transactions { get; set; }
+        public DbSet<TransactionCategory> TransactionCategories { get; set; }
     }
 
 

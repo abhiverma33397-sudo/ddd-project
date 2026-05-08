@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Domain.UserCategories;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Transactions
 {
@@ -10,8 +11,9 @@ namespace Domain.Transactions
         public string Note { get; set; }
         public DateTime Date { get; set; }
 
+        [ForeignKey("Category")]
         public int TransactionCategoryId { get; set; }
-        public UserTransactionCategory Category { get; set; }
+        public TransactionCategory Category { get; set; }
 
 
 

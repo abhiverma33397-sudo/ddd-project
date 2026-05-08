@@ -16,7 +16,7 @@ namespace WebAp_.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(GetTransactionDto dto)
+        public async Task<IActionResult> GetAll()
         {
             var result = await _application.GetAll();
             return Ok(result);
@@ -29,9 +29,9 @@ namespace WebAp_.Controllers
             return Ok(result);
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(GetTransactionDto dto)
+        public async Task<IActionResult> GetById(int id)
         {
-            var result = await _application.GetById(dto.Id);
+            var result = await _application.GetById(id);
             return Ok(result);
         }
 

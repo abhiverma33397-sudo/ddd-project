@@ -2,7 +2,6 @@
 using AutoMapper;
 using Data.Repositries.TransactionRepostries;
 using Domain.Transactions;
-using Domain.Users;
 
 namespace Application.Users.TransactionDtos.Transaction_A
 {
@@ -24,7 +23,7 @@ namespace Application.Users.TransactionDtos.Transaction_A
             return "Transaction created successfully.";
         }
 
-      
+
 
         public async Task<List<GetTransactionDto>> GetAll()
         {
@@ -35,15 +34,17 @@ namespace Application.Users.TransactionDtos.Transaction_A
 
         public async Task<GetTransactionDto> GetById(int id)
         {
-            var transaction= _transactionRepo.GetById(id);
+            var transaction = await _transactionRepo.GetById(id);
+
             if (transaction == null)
                 return null;
-            var result=_mapper.Map<GetTransactionDto>(transaction);
+
+            var result = _mapper.Map<GetTransactionDto>(transaction);
 
             return result;
         }
 
-        public async Task Update(int id,CreateUpdateTransactionDto dto)
+        public async Task Update(int id, CreateUpdateTransactionDto dto)
         {
             var transaction = await _transactionRepo.GetById(id);
             if (transaction == null)
