@@ -16,7 +16,21 @@ namespace Data.DataContexts
         public DbSet<OtpVerify> OtpVerifies { get; set; }
         public DbSet<UserTransaction> Transactions { get; set; }
         public DbSet<TransactionCategory> TransactionCategories { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserTransaction>()
+                .HasOne(x => x.User)
+                .WithMany()
+                .HasForeignKey(x => x.CreatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<TransactionCategory>()
+                .HasOne(x => x.User)
+                .WithMany()
+                .HasForeignKey(x => x.CreatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+        }
     }
-
-
 }

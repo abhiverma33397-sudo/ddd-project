@@ -21,9 +21,10 @@ namespace Data.Repositries.TransactionRepostries
              await _context.SaveChangesAsync();
         }
 
-        public async Task<List<UserTransaction>> GetAll()
+        public async Task<List<UserTransaction>> GetAll(int userId)
         {
             return await _context.Transactions
+                .Where(x => x.CreatedBy == userId) 
                 .Include(x => x.Category)
                 .ToListAsync(); 
         }

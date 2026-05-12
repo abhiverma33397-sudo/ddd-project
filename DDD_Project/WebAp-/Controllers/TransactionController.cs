@@ -1,5 +1,7 @@
 ﻿using Application.Users.TransactionDtos.Transaction_A;
 using Application.Users.Transactions.TransactionDtos;
+using Domain.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAp_.Controllers
@@ -16,16 +18,32 @@ namespace WebAp_.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int userId)
         {
-            var result = await _application.GetAll();
+            var result = await _application.GetAll(userId);
             return Ok(result);
         }
 
+        [Authorize]
+        [HttpGet("Dashboard-Summery")]
+        public async Task<IActionResult> GetUserDashboard(
+        CancellationToken cancellationToken)
+        {
+            var userId = User.Claims
+                .FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            var result = await _application
+                .GetUserDashboard(userId, cancellationToken);
+
+            return Ok(result);
+        }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(CreateUpdateTransactionDto dto)
         {
-            var result = await _application.Create(dto);
+            var userid = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+           
+            var result = await _application.Create(dto, userid);
             return Ok(result);
         }
         [HttpGet("{id}")]

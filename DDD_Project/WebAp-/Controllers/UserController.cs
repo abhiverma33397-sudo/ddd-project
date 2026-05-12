@@ -1,5 +1,6 @@
 ﻿using Application.Users;
 using Application.Users.UserDtos;
+using Domain.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -57,6 +58,33 @@ namespace WebAp_.Controllers
                 return NotFound(ex.Message);
             }
         }
+
+        [HttpPost("uploadFile")]
+        public async Task<IActionResult> UploadFile([FromForm] FileUpload upload)
+        {
+            if (upload == null || upload.File == null || upload.File.Length == 0)
+            {
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    Message = "No file uploaded."
+                });
+            }
+
+            var fileName = await _userApplication.UploadFile(upload);
+
+            var fileUrl = $"{Request.Scheme}://{Request.Host}/Docs/{fileName}";
+
+            return Ok(new
+            {
+                StatusCode = 200,
+                Message = "File uploaded successfully.",
+                FileUrl = fileUrl,
+                Description = upload.Description,
+                UserId = upload.UserId
+            });
+        }
+
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)

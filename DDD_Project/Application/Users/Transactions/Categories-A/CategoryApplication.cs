@@ -16,9 +16,10 @@ namespace Application.Users.Transactions.Categories_A
             _mapper = mapper;
         }
 
-        public async Task Create(CreateUpdateCategoryDto dto)
+        public async Task Create(CreateUpdateCategoryDto dto, string userId)
         {
             var category = _mapper.Map<TransactionCategory>(dto);
+            category.CreatedBy = Convert.ToInt32(userId);
             await _categoryRepo.Create(category);
         }
 

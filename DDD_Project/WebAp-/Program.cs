@@ -92,9 +92,9 @@ builder.Services.AddScoped<ITokenGenerate, TokenGenerate>();
 builder.Services.AddScoped<IMailService, MailService>();
 builder.Services.AddScoped<ITransactionRepo, TransactionRepo>();
 builder.Services.AddScoped<ITransactionApplication, TransactionApplication>();
-builder.Services.AddScoped<ICategoryRepo,CategoryRepo>();
+builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
 builder.Services.AddScoped<ICategoryApplication, CategoryApplication>();
-
+builder.Services.AddHttpContextAccessor();
 
 
 var app = builder.Build();
@@ -108,8 +108,9 @@ if (app.Environment.IsDevelopment())
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseAuthentication();
-app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();

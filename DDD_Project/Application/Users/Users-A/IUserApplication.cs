@@ -1,4 +1,5 @@
 ﻿using Application.Users.UserDtos;
+using Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,5 +13,6 @@ namespace Application.Users
         Task<GetUserDto> GetById(int id);
         Task Update(int id, UserUpdateDto dto);
         Task Delete(int id);
+        Task <string> UploadFile(FileUpload fileUpload);
     }
 }

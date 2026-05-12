@@ -103,6 +103,23 @@ namespace Application.Users
             _mapper.Map(dto, user);
             await _userRepo.Update(user);
         }
+        public async Task <string> UploadFile(FileUpload upload)
+        {
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Docs");
+            if(!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+            var fileName=Guid.NewGuid().ToString()+Path.GetExtension(upload.File.FileName).ToLower();
+            var filePath = Path.Combine(folderPath, fileName);
+
+            using(var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await upload.File.CopyToAsync(stream);
+            }
+
+            return fileName;
+        }
         public async Task Delete(int id)
         {
             var user = await _userRepo.GetById(id);

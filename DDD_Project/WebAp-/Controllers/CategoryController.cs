@@ -1,5 +1,6 @@
 ﻿using Application.Users.Transactions.Categories_A;
 using Application.Users.Transactions.CategoriesDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAp_.Controllers
@@ -14,11 +15,14 @@ namespace WebAp_.Controllers
         {
             _categoryApplication = categoryApplication;
         }
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(CreateUpdateCategoryDto dto)
+
+
         {
-            await _categoryApplication.Create(dto);
+            var userid = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            await _categoryApplication.Create(dto, userid);
             return Ok("Category created successfully");
         }
 
