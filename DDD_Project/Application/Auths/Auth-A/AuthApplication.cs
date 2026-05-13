@@ -43,7 +43,8 @@ namespace Application.Auth_A
 
             return _tokenGenerate.GenerateToken(
                 user.Role,
-                user.Id
+                user.Id,
+                user.UserName
             );
         }
         public async Task<string> ForgetPassword(CreateForgetPasswordDto dto)
@@ -99,10 +100,15 @@ namespace Application.Auth_A
 
             if (otpRecord.User == null)
                 return "User not found.";
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserName==email);
+            user.IsVerified = true;
+            await _dbContext.SaveChangesAsync();
+
 
             var token = _tokenGenerate.GenerateToken(
                 otpRecord.User.Role,
-                otpRecord.User.Id
+                otpRecord.User.Id,
+                otpRecord.User.UserName
             );
 
             return token;

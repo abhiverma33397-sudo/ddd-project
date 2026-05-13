@@ -14,7 +14,7 @@ namespace Application.Services.TokenServices
             _configuration = configuration;
         }
 
-        public string GenerateToken(string role, int userId)
+        public string GenerateToken(string role, int userId, string userName)
         {
             var key = _configuration["JWTSettings:SecretKey"];
             var issuer = _configuration["JWTSettings:Issuer"];
@@ -25,10 +25,11 @@ namespace Application.Services.TokenServices
 
             var claims = new[]
             {
-                new Claim(ClaimTypes.Role, role),
+                new Claim("Role", role),
 
               //new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-              new Claim("UserId", userId.ToString())
+              new Claim("UserId", userId.ToString()),
+              new Claim("UserName", userName)
 
             };
 
