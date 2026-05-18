@@ -26,11 +26,13 @@ namespace Data.Repositries.UserRepo
         }
         public async Task<User> GetById(int id)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Users.FindAsync(id);
         }
+
         public async Task Update(User user)
         {
             _context.Users.Update(user);
+
             await _context.SaveChangesAsync();
         }
 

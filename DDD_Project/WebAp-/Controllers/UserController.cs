@@ -2,7 +2,6 @@
 using Application.Users.UserDtos;
 using Domain.Users;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAp_.Controllers
@@ -44,21 +43,17 @@ namespace WebAp_.Controllers
                 return NotFound("User not found");
             return Ok(user);
         }
-        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, UserUpdateDto dto)
+        public async Task<IActionResult> Update( int id,[FromForm] UserUpdateDto dto)
         {
-            try
-            {
-                await _userApplication.Update(id, dto);
-                return Ok("User updated successfully");
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
+            var imagePath = await _userApplication.Update(id, dto);
 
+            return Ok(new
+            {
+                message = "Profile Updated Successfully",
+                profileImage = imagePath
+            });
+        }
         [HttpPost("uploadFile")]
         public async Task<IActionResult> UploadFile([FromForm] FileUpload upload)
         {

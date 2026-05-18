@@ -92,28 +92,59 @@ namespace Application.Users
 
             return result;
         }
-
-        public async Task Update(int id, UserUpdateDto dto)
+        public async Task<string> Update(int id, UserUpdateDto dto)
         {
             var user = await _userRepo.GetById(id);
+
             if (user == null)
             {
-                throw new Exception("User not found");
+                throw new Exception("User Not Found");
             }
-            _mapper.Map(dto, user);
+
+            user.FirstName = dto.FirstName;
+            user.LastName = dto.LastName;
+
+
+            if (dto.File != null)
+            {
+                var fileName = Guid.NewGuid() +
+                    Path.GetExtension(dto.File.FileName);
+
+                var folderPath = Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    "wwwroot/ProfileImages"
+                );
+
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
+                var filePath = Path.Combine(folderPath, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await dto.File.CopyToAsync(stream);
+                }
+
+                user.ProfileImage = $"ProfileImages/{fileName}";
+            }
+
             await _userRepo.Update(user);
+
+            return user.ProfileImage;
         }
-        public async Task <string> UploadFile(FileUpload upload)
+        public async Task<string> UploadFile(FileUpload upload)
         {
             var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Docs");
-            if(!Directory.Exists(folderPath))
+            if (!Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);
             }
-            var fileName=Guid.NewGuid().ToString()+Path.GetExtension(upload.File.FileName).ToLower();
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(upload.File.FileName).ToLower();
             var filePath = Path.Combine(folderPath, fileName);
 
-            using(var stream = new FileStream(filePath, FileMode.Create))
+            using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await upload.File.CopyToAsync(stream);
             }

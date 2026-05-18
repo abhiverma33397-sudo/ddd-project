@@ -15,9 +15,9 @@ namespace Data.Repositries.AuthRepostries
             _context = context;
         }
 
-        public Task<User> GetByEmail(string requestEmail)
+        public async Task<User> GetByEmail(string requestEmail)
         {
-            return _context.Users.FirstOrDefaultAsync(u => u.UserName == requestEmail);
+            return await _context.Users.FirstOrDefaultAsync(u => u.UserName == requestEmail);
         }
 
         public async Task<User?> Login(string userName, string password)

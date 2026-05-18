@@ -16,9 +16,17 @@ namespace Data.Repositries.TransactionRepostries
 
         public async Task Create(UserTransaction transaction)
         {
-             await _context.Transactions.AddAsync(transaction);
-            
-             await _context.SaveChangesAsync();
+            var categoryExists = await _context.TransactionCategories
+                .AnyAsync(x => x.Id == transaction.TransactionCategoryId);
+
+            if (!categoryExists)
+            {
+                throw new Exception("Invalid Transaction Category Id");
+            }
+
+            await _context.Transactions.AddAsync(transaction);
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<UserTransaction>> GetAll(int userId)

@@ -23,5 +23,7 @@ namespace Application.Users.UserDtos
         [Required]
         [StringLength(20)]
         public string Role { get; set; }
+
+        public string? ProfileImage { get; set; }
     }
 }
